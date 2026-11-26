@@ -12,7 +12,6 @@
 <body class="min-h-screen bg-[#f7f3ee] text-[#1f1a16] flex items-center justify-center px-4 py-8 antialiased" style="font-family: 'Plus Jakarta Sans', sans-serif;">
 
     <div class="w-full max-w-[460px] bg-white border border-[#e6dfd5] rounded-2xl px-6 py-9 sm:px-10 sm:py-11 shadow-[0_12px_32px_rgba(74,53,25,0.05)]">
-        <!-- Logo & Header -->
         <div class="text-center mb-7">
             <img src="{{ asset('images/logo-mycamp.png') }}" alt="Logo MyCamp"
                 class="h-16 w-auto mx-auto mb-3 object-contain">
@@ -28,7 +27,6 @@
             </p>
         </div>
 
-        <!-- Tab Pemilih Peran (Kasir / Admin) -->
         <div class="grid grid-cols-2 gap-1.5 bg-[#f2ece4] p-1.5 rounded-xl mb-4" role="tablist">
             <button type="button" id="tabKasir"
                 class="flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg text-sm font-semibold bg-white text-[#1f1a16] shadow-sm transition cursor-pointer">
@@ -50,10 +48,9 @@
             Catat biodata penyewa, kelola jaminan identitas, dan proses transaksi sewa.
         </p>
 
-        <!-- Form Login -->
         <form action="{{ route('login.proses') }}" method="POST" class="space-y-4">
             @csrf
-
+            <input type="hidden" name="login_role" id="login_role" value="kasir">
             <div>
                 <label for="email" class="block text-sm font-semibold text-[#1f1a16] mb-1.5">Email</label>
                 <input type="email" name="email" id="email" value="{{ old('email') }}"
@@ -105,7 +102,6 @@
     </div>
 
     <script>
-        // Toggle Lihat/Sembunyikan Kata Sandi
         document.getElementById('togglePassword').addEventListener('click', function () {
             const pwd = document.getElementById('password');
             const eyeOpen = document.getElementById('eyeOpen');
@@ -121,12 +117,12 @@
             }
         });
 
-        // Interaksi Tab Kasir & Admin
         const tabKasir = document.getElementById('tabKasir');
         const tabAdmin = document.getElementById('tabAdmin');
         const roleDesc = document.getElementById('roleDescription');
         const emailInput = document.getElementById('email');
         const submitText = document.getElementById('submitText');
+        const loginRoleInput = document.getElementById('login_role');
 
         const activeClasses = ['bg-white', 'text-[#1f1a16]', 'shadow-sm'];
         const inactiveClasses = ['text-[#78716c]', 'hover:text-[#1f1a16]'];
@@ -139,6 +135,7 @@
             roleDesc.textContent = 'Catat biodata penyewa, kelola jaminan identitas, dan proses transaksi sewa.';
             emailInput.placeholder = 'Email';
             submitText.textContent = 'Masuk Kasir';
+            loginRoleInput.value = 'kasir';
         });
 
         tabAdmin.addEventListener('click', function () {
@@ -149,7 +146,12 @@
             roleDesc.textContent = 'Kelola data penyewa, stok perlengkapan camping, dan pengaturan akun petugas.';
             emailInput.placeholder = 'Email';
             submitText.textContent = 'Masuk Admin';
+            loginRoleInput.value = 'admin';
         });
+
+        if (loginRoleInput.value === 'admin') {
+            tabAdmin.click();
+        }
     </script>
 </body>
 </html>
