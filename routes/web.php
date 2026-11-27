@@ -9,4 +9,4 @@ Route::get('/', function () {
 });
 
 Route::resource('kategori', KategoriController::class)->except('show');
-Route::resource('peralatan', PeralatanController::class)->except('show');php artisan db:seed --class=KatalogSeeder
+Route::resource('peralatan', PeralatanController::class)->except('show');
